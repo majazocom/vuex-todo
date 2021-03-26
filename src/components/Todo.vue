@@ -1,10 +1,18 @@
 <template>
-  <h1>Todo</h1>
+  <li v-on:click="deleteTodo(item.id)">{{ item.task }}</li>
 </template>
 
 <script>
 export default {
-  name: 'Todo'
+  name: 'Todo',
+  props: {
+    item: Object
+  },
+  methods: {
+    deleteTodo(id) {
+      this.$store.dispatch('deleteTodo', id);
+    }
+  }
 }
 </script>
 

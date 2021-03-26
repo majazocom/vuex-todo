@@ -21,11 +21,24 @@ export default new Vuex.Store({
             const data = await response.json();
             ctx.commit('updateTodos', data.todos);
         },
-        addTodo() {
+        async addTodo(ctx, newTodo) {
             //add a todo
+            const obj = { task: newTodo };
+            const response = await fetch(url, 
+                {
+                    method: 'POST',
+                    body: JSON.stringify(obj),
+                    headers: {'Content-Type': 'application/json'}
+                });
+            const data = await response.json();
+            ctx.commit('updateTodos', data.newTodo);
         },
-        deleteTodo() {
-
+        async deleteTodo(ctx, id) {
+            const response = await fetch(url + `/${id}`, { method: 'DELETE' });
+            const data =  await response.json();
+            if (data.success) {
+                ctx.dispatch('getTodos');
+            }
         }
     }
 })
